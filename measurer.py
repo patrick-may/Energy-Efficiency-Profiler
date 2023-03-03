@@ -9,6 +9,7 @@ power_path = "\"C:\Program Files\Intel\Power Gadget 3.6\PowerLog3.0.exe\""
 import argparse
 import subprocess
 from datetime import datetime
+import time
 
 
 logfile = f"\"power-logs\\PowerLog-{str(datetime.now()).replace(':','-')}\""
@@ -29,11 +30,19 @@ print("Running command:\n",proc)
 
 completed = subprocess.run(proc)
 print(completed.stdout)
-print("Measurement Completed -- Analyzing")
+print("Energy Measurement Completed -- Analyzing")
 
-import polars as pl
+time.sleep(1)
 
-df = pl.read_csv(data.replace("\"",""))
-print(df)
+print("Execution Trace Profiling:")
+
+if args.cmdtype == 'python3':
+    import cProfile
+    print("Python profiling...")
+    trace = subprocess.run(f"python -m cProfile {args.infile}")
+    print(trace.stdout)
+
+
+# transition to analyze.ipynb for now
 
 
