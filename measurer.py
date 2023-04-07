@@ -48,10 +48,6 @@ if args.cmdtype == 'python3':
     tested.print_stats()
     print(tested.get_stats_profile())
 
-    
-
-
-
 # transition to analyze.ipynb for now
 
 
