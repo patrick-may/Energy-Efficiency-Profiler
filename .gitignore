@@ -5,7 +5,10 @@
 *.so
 *.dylib
 *.vscode
-/__pycache__
+
+
+*/__pycache__
+/data
 # Test binary, built with `go test -c`
 *.test
 /power-logs
