@@ -1,3 +1,6 @@
 clean-tests:
-	rmdir /s power-logs
-	mkdir power-logs
+	rmdir /s data/power-logs
+	rmdir /s data/profiles
+	mkdir data/power-logs
+	mkdir data/profiles
+	
