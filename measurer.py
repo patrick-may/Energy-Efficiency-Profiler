@@ -16,7 +16,7 @@ powerlogfile = f"\"data\\power-logs\\PowerLog-{str(datetime.now()).replace(':','
 parser = argparse.ArgumentParser(description="cmd line tool for measuring energy consumption while executing a program and extracting main results")
 parser.add_argument('-o', '--output', dest='outfile', default=powerlogfile)
 parser.add_argument('-ctype', dest="cmdtype", default='python3')
-parser.add_argument('-r', '--resolution', dest='resolution', default=5)
+parser.add_argument('-r', '--resolution', dest='resolution', default=10)
 parser.add_argument('-v', '--verbose', dest='verbose', default=False)
 parser.add_argument('-t', dest="infile")
 
@@ -47,7 +47,7 @@ if args.cmdtype == 'python3':
     tested.sort_stats("cumtime")
     tested.print_stats()
     print(tested.get_stats_profile())
-    
+
     
 
 
