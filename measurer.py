@@ -1,18 +1,63 @@
 """
-In CMD:
+Patrick May
+JR IS Energy Profiling Energy Script
+
+Current Measurement Tool is Intel's PowerLog3.0. That Works in Windows CMD.
+Invoked with:
 
 PowerLog.exe [-resolution <msec>] [-verbose] [-file <logfile>] -cmd {command to evaluate here}
 """
-
-power_path = "\"C:\Program Files\Intel\Power Gadget 3.6\PowerLog3.0.exe\""
 
 import argparse
 import subprocess
 from datetime import datetime, date
 import time
 
+power_path = "\"C:\Program Files\Intel\Power Gadget 3.6\PowerLog3.0.exe\""
 
-powerlogfile = f"\"data\\power-logs\\PowerLog-{str(datetime.now()).replace(':','-')}\""
+def pyprof():
+    # pyprof time
+    print("Python Profiling 🗿")
+
+    # first edit the 'wrapper' output file (this is a bit of a hack)
+    # the leading whitespace is MANDATORY. And may or may not be compatible with your current configuration
+    # oopsies
+    timepath = f"\"data\\\\intervals\\\\python\\\\{ts}.csv\""
+    full_line = f"        save_to = {timepath}\n"
+    
+    # read in file
+    with open("stress-tests\\python\\wrapper.py") as dec:
+        full = dec.readlines()
+    # filter entire file (its a short wrapper file)
+    updated = []
+    for line in full:
+        if "save_to = " in line:
+            updated.append(full_line)
+        else:
+            updated.append(line)
+    # rewrite entire file
+    with open("stress-tests\\python\\wrapper.py", "w") as dec:
+        dec.writelines(updated)
+    
+    with open(timepath.replace("\\\\", "\\").replace("\"", ""), "a") as logfile:
+        logfile.write("func-head,runtime\n")
+
+    proc = f"{power_path} -resolution {args.resolution} -file {args.outfile} -cmd {comm_types[args.cmdtype]}"
+    print("Running command:\n",proc)
+
+    completed = subprocess.run(proc)
+    print(completed.stdout)
+    print("\nLogging Complete\n")
+
+    print(timepath)
+    print(args.outfile)
+    
+    #profilelogfile = f"data\\profiles\\profile-{stamp}.prof" #+ "\""
+    #trace = subprocess.run(f"python -m cProfile -o {profilelogfile} {args.infile}")
+    
+
+ts = str(datetime.now()).replace(':','-')
+powerlogfile = f"\"data\\power-logs\\PowerLog-{ts}\""
 parser = argparse.ArgumentParser(description="cmd line tool for measuring energy consumption while executing a program and extracting main results")
 parser.add_argument('-o', '--output', dest='outfile', default=powerlogfile)
 parser.add_argument('-ctype', dest="cmdtype", default='python3')
@@ -25,28 +70,12 @@ args = parser.parse_args()
 comm_types={"clang":f"wsl {args.infile}", "python3":f"python {args.infile}"}
 data = args.outfile
 
-proc = f"{power_path} -resolution {args.resolution} -file {args.outfile} -cmd {comm_types[args.cmdtype]}"
-print("Running command:\n",proc)
-
-completed = subprocess.run(proc)
-#print(completed.stdout)
-print("Energy Measurement Complete\n")
-
-time.sleep(1)
 
 print("Execution Trace Profiling\n")
 
 # Python Profiling
 if args.cmdtype == 'python3':
-    import pstats
-    print("Python profiling...")
-    stamp = str(datetime.now()).replace(':','-').replace(" ", "-")
-    profilelogfile = f"data\\profiles\\profile-{stamp}.prof" #+ "\""
-    trace = subprocess.run(f"python -m cProfile -o {profilelogfile} {args.infile}")
-    tested = pstats.Stats(profilelogfile)
-    tested.sort_stats("cumtime")
-    tested.print_stats()
-    print(tested.get_stats_profile())
+    pyprof()
 
 # transition to analyze.ipynb for now
 
