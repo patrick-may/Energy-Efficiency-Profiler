@@ -8,16 +8,16 @@ def measure_time(f):
     
     # improve stamping outfile...
     def timed(*args, **kw):
-        save_to = "data\\intervals\\python\\2023-04-19 13-35-28.409181.csv"
+        save_to = "data\intervals\python\TimeLog-2023-04-20-10-20-27.887215.csv"
+        
         ts = time.time()
         result = f(*args, **kw)
         te = time.time()
 
         with open(save_to, "a") as out:
             func = f'{f.__name__}({args} kw={kw})'.replace(",","|")
-            stamp = f'{te-ts:2.2f}\n'
-            out.write(f"{func},{stamp}")
+            start = f'{te-ts:2.2f}\n'
+            out.write(f"{func},{ts:2.4f},{te:2.4f}\n")
 
         return result
-
     return timed

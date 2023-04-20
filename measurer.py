@@ -22,12 +22,14 @@ def pyprof():
     # first edit the 'wrapper' output file (this is a bit of a hack)
     # the leading whitespace is MANDATORY. And may or may not be compatible with your current configuration
     # oopsies
-    timepath = f"\"data\\\\intervals\\\\python\\\\{ts}.csv\""
+
+    timepath = f"\"data\\intervals\\python\\TimeLog-{ts}.csv\""
     full_line = f"        save_to = {timepath}\n"
     
     # read in file
     with open("stress-tests\\python\\wrapper.py") as dec:
         full = dec.readlines()
+
     # filter entire file (its a short wrapper file)
     updated = []
     for line in full:
@@ -35,28 +37,33 @@ def pyprof():
             updated.append(full_line)
         else:
             updated.append(line)
-    # rewrite entire file
+
+    # rewrite entire wrapper file 
     with open("stress-tests\\python\\wrapper.py", "w") as dec:
         dec.writelines(updated)
     
     with open(timepath.replace("\\\\", "\\").replace("\"", ""), "a") as logfile:
-        logfile.write("func-head,runtime\n")
+        logfile.write("func-head,start,end\n")
 
+    # our subprocess ommand
     proc = f"{power_path} -resolution {args.resolution} -file {args.outfile} -cmd {comm_types[args.cmdtype]}"
     print("Running command:\n",proc)
 
+    # run command and print its output
     completed = subprocess.run(proc)
     print(completed.stdout)
     print("\nLogging Complete\n")
 
-    print(timepath)
-    print(args.outfile)
+    time.sleep(3)
+    from analyze import analyze
+    
+    analyze(pdata=f"{args.outfile}", tdata=timepath)
     
     #profilelogfile = f"data\\profiles\\profile-{stamp}.prof" #+ "\""
     #trace = subprocess.run(f"python -m cProfile -o {profilelogfile} {args.infile}")
     
 
-ts = str(datetime.now()).replace(':','-')
+ts = str(datetime.now()).replace(':','-').replace(" ", "-")
 powerlogfile = f"\"data\\power-logs\\PowerLog-{ts}\""
 parser = argparse.ArgumentParser(description="cmd line tool for measuring energy consumption while executing a program and extracting main results")
 parser.add_argument('-o', '--output', dest='outfile', default=powerlogfile)
