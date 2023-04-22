@@ -5,8 +5,7 @@
 #include <iostream>
 #include <fstream>
 
-#define COWPROF_FILEPATH "data/intervals/c++/TimeLog-2023-04-20-10-09-17.659270.csv"
-
+#define COWPROF_FILEPATH "data/intervals/c++/TimeLog-2023-04-22-16-02-22.819401.csv"
 using namespace std::chrono;
 
 class CowLog {

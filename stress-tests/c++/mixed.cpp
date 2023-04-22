@@ -18,14 +18,14 @@ void thrash(){
     CowLog s("thrash");
 
     long long int ct = 0;
-    for(long long int i = 0; i < 10000000; ++i){
+    for(long long int i = 0; i < 1000000000; ++i){
         ct += 1;
     }
 
     s.finish();
 }
 int main() {
-    cout << "hello world" << "\n";
+    cout << "thonk time 🤬" << "\n";
     for(int i = 0; i < 10; ++i){
         if(i % 2){
             thrash();

@@ -15,6 +15,54 @@ import time
 
 power_path = "\"C:\Program Files\Intel\Power Gadget 3.6\PowerLog3.0.exe\""
 
+def cplusplus():
+    # c++ prof time
+    print("C Pwus Pwus Pwofilwer 😼😼")
+
+    # uh linux based file pathing for wsl exec
+    timepath = f"data/intervals/c++/TimeLog-{ts}.csv"
+    full_line = f"#define COWPROF_FILEPATH \"{timepath}\"\n"
+
+    # similar c++ wrapper rewrite fn
+    with open("stress-tests\\c++\\wrapper.hpp") as dec:
+        full = dec.readlines()
+
+    # filter entire file (its a short wrapper file)
+    updated = []
+    for line in full:
+        if "#define COWPROF_FILEPATH" in line:
+            updated.append(full_line)
+        else:
+            updated.append(line)
+
+    # rewrite entire wrapper file 
+    with open("stress-tests\\c++\\wrapper.hpp", "w") as dec:
+        dec.writelines(updated)
+    
+    # open timings file and initialize proper headers
+    with open(timepath.replace("/", "\\"), "a") as logfile:
+        logfile.write("func-head,start,end\n")
+
+    # our subprocess ommand
+    proc = f"{power_path} -resolution {args.resolution} -file {args.outfile} -cmd {comm_types[args.cmdtype]}"
+    print("Running command:\n",proc)
+
+    # run command and print its output
+    completed = subprocess.run(proc,capture_output=True)
+    print(completed.stdout)
+    print("\nC++ Compilation Complete\n")
+
+    time.sleep(3)
+
+    # run the compiled script
+    proc = f"{power_path} -resolution {args.resolution} -file {args.outfile} -cmd wsl ./a.out"
+    print("\nExecuting Code\n")
+    completed = subprocess.run(proc,capture_output=True)
+    print(completed.stdout)
+    from analyze import analyze    
+    analyze(pdata=f"{args.outfile}", tdata=timepath)
+
+
 def pyprof():
     # pyprof time
     print("Python Profiling 🗿")
@@ -49,22 +97,22 @@ def pyprof():
     proc = f"{power_path} -resolution {args.resolution} -file {args.outfile} -cmd {comm_types[args.cmdtype]}"
     print("Running command:\n",proc)
 
-    # run command and print its output
+    # compile the command
     completed = subprocess.run(proc)
     print(completed.stdout)
-    print("\nLogging Complete\n")
+    print("\nExecution Complete\n")
 
     time.sleep(3)
+
     from analyze import analyze
     
     analyze(pdata=f"{args.outfile}", tdata=timepath)
     
-    #profilelogfile = f"data\\profiles\\profile-{stamp}.prof" #+ "\""
-    #trace = subprocess.run(f"python -m cProfile -o {profilelogfile} {args.infile}")
-    
-
+# datetime ts
 ts = str(datetime.now()).replace(':','-').replace(" ", "-")
 powerlogfile = f"data\\power-logs\\PowerLog-{ts}"
+
+# argparse stuff
 parser = argparse.ArgumentParser(description="cmd line tool for measuring energy consumption while executing a program and extracting main results")
 parser.add_argument('-o', '--output', dest='outfile', default=powerlogfile)
 parser.add_argument('-ctype', dest="cmdtype", default='python3')
@@ -74,16 +122,16 @@ parser.add_argument('-t', dest="infile")
 
 args = parser.parse_args()
 
-comm_types={"clang":f"wsl {args.infile}", "python3":f"python {args.infile}"}
+comm_types={"c++":f"wsl {args.infile}", "python3":f"python {args.infile}"}
 data = args.outfile
-
 
 print("Execution Trace Profiling\n")
 
 # Python Profiling
 if args.cmdtype == 'python3':
     pyprof()
-
+if args.cmdtype == 'c++':
+    cplusplus()
 # transition to analyze.ipynb for now
 
 
