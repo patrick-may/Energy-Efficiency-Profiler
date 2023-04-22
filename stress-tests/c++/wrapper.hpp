@@ -5,7 +5,8 @@
 #include <iostream>
 #include <fstream>
 
-#define COWPROF_FILEPATH "data\intervals\c++\TimeLog-2023-04-20 10-09-17.659270.csv"
+#define COWPROF_FILEPATH "data/intervals/c++/TimeLog-2023-04-20-10-09-17.659270.csv"
+
 using namespace std::chrono;
 
 class CowLog {
@@ -15,12 +16,12 @@ class CowLog {
         uint64_t begms;
         uint64_t endms;
 
-        CowLog::CowLog(std::string fname){
+        CowLog(std::string fname){
             funcname = fname;
             begms = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count();
         }
 
-        void CowLog::finish(){
+        void finish(){
             endms = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count();
             std::string writeme = funcname + ',' + conv(begms) + ',' + conv(endms) +'\n';
             std::ofstream outfile;
@@ -30,7 +31,7 @@ class CowLog {
         }
 
     private:
-        std::string CowLog::conv(uint64_t ms){
+        std::string conv(uint64_t ms){
             std::string ms_conv = std::to_string(ms);
             int decloc = ms_conv.size() - 3;
             ms_conv.insert(decloc, ".");
