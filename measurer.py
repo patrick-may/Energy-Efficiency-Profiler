@@ -23,8 +23,8 @@ def pyprof():
     # the leading whitespace is MANDATORY. And may or may not be compatible with your current configuration
     # oopsies
 
-    timepath = f"\"data\\intervals\\python\\TimeLog-{ts}.csv\""
-    full_line = f"        save_to = {timepath}\n"
+    timepath = f"data\\intervals\\python\\TimeLog-{ts}.csv"
+    full_line = f"        save_to = \"{timepath}\"\n"
     
     # read in file
     with open("stress-tests\\python\\wrapper.py") as dec:
@@ -64,7 +64,7 @@ def pyprof():
     
 
 ts = str(datetime.now()).replace(':','-').replace(" ", "-")
-powerlogfile = f"\"data\\power-logs\\PowerLog-{ts}\""
+powerlogfile = f"data\\power-logs\\PowerLog-{ts}"
 parser = argparse.ArgumentParser(description="cmd line tool for measuring energy consumption while executing a program and extracting main results")
 parser.add_argument('-o', '--output', dest='outfile', default=powerlogfile)
 parser.add_argument('-ctype', dest="cmdtype", default='python3')

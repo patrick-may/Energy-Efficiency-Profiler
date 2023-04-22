@@ -2,7 +2,11 @@
 
 #include <time.h>
 
-#define START_COWPROF(funcname)
-    time_t ts;
-    struct tm * timeinfo;
-    time( &ts );
+clock_t cowprof_start() {
+    return clock();
+}
+
+clock_t cowprof_end(){
+    return clock();
+}
+

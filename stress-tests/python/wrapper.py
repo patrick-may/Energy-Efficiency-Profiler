@@ -8,7 +8,7 @@ def measure_time(f):
     
     # improve stamping outfile...
     def timed(*args, **kw):
-        save_to = "data\intervals\python\TimeLog-2023-04-20-10-20-27.887215.csv"
+        save_to = "data\intervals\python\TimeLog-2023-04-21-13-04-57.396546.csv"
         
         ts = time.time()
         result = f(*args, **kw)

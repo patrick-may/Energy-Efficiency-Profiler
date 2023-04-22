@@ -1,3 +1,4 @@
+
 def analyze(pdata, tdata):
     print(pdata, tdata)
     import polars as pl
@@ -5,12 +6,13 @@ def analyze(pdata, tdata):
     from matplotlib import cm
     import numpy as np
     import os
-
+    ppath = os.path.abspath(pdata)
+    tpath = os.path.abspath(tdata)
     print(os.getcwd())
 
     # getting the power usage statistics
 
-    powerdata, timedata = pdata, tdata
+    powerdata, timedata = ppath, tpath
     systimeshift = 0
     pwr = pl.read_csv(powerdata)
 
@@ -41,13 +43,12 @@ def analyze(pdata, tdata):
     ])
 
 
-    fig, ax = plt.subplots()
-
     timeline = pwr.select(
         pl.col("Elapsed Time (sec)"
     ))
 
-
+    
+    fig, ax = plt.subplots()
     # plot per sample energy data
     ax.plot(timeline, pwr.select(pl.col("Processor Power_0(Watt)")), label= "Overall Power (W)")
 

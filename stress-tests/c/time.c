@@ -2,9 +2,11 @@
 #include <stdio.h>
 
 int main() {
+    clock_t ts = clock();
 
-    time_t ts;
-    time( &ts );
-    printf("%ld", ts);
-    return 0;
+    for(size_t i = 0; i < 100000; ++i){
+        ++i;
+    }
+    clock_t te = clock();
+    printf("%ld%ld",ts,te);
 }
