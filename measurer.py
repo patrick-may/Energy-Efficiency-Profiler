@@ -127,11 +127,11 @@ data = args.outfile
 
 print("Execution Trace Profiling\n")
 
-# Python Profiling
+# call the different functions to handle specific language profiling
 if args.cmdtype == 'python3':
     pyprof()
 if args.cmdtype == 'c++':
     cplusplus()
-# transition to analyze.ipynb for now
+
 
 

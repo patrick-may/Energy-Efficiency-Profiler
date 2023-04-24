@@ -8,7 +8,6 @@ def analyze(pdata, tdata):
     import os
     ppath = os.path.abspath(pdata)
     tpath = os.path.abspath(tdata)
-    print(os.getcwd())
 
     # getting the power usage statistics
 
@@ -75,22 +74,31 @@ def analyze(pdata, tdata):
     for row in timing.rows(named=True):
         func_name = row["func-head"]
         unique_color, unique_offset = pairings[func_name]
-        plt.hlines(unique_offset, 
+        plt.hlines(
+            unique_offset, 
             row["start"], 
             row["end"], 
             label=row["func-head"], 
             color=unique_color,
-            linewidth=3)
+            linewidth=3
+        )
 
     # only use unique labels for repeat func calls
     # from this blog post: https://itecnote.com/tecnote/python-stop-matplotlib-repeating-labels-in-legend/
     handles, labels = plt.gca().get_legend_handles_labels()
     by_label = dict(zip(labels, handles))
 
+    # label graph
     plt.title("CowProf High Level Report")
     plt.xlabel("Time (ms)"); plt.ylabel("Power (W)")
-    fig.legend(by_label.values(), by_label.keys())
-    fig.set_figwidth(8)
-
+    plt.legend(
+        by_label.values(), 
+        by_label.keys(), 
+        bbox_to_anchor=(1.05, 1.0), 
+        loc="upper left", 
+        borderaxespad=0.,
+    )
+    
+    plt.tight_layout()
     plt.show()
     
