@@ -5,4 +5,5 @@ clean-tests:
 	mkdir data\power-logs
 	mkdir data\intervals
 	mkdir data\intervals\python
+	mkdir data\intervals\c++
 	
