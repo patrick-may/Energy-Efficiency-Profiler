@@ -13,11 +13,12 @@ import subprocess
 from datetime import datetime, date
 import time
 
+# the CMD path to your installed PowerLog3.0
 power_path = "\"C:\Program Files\Intel\Power Gadget 3.6\PowerLog3.0.exe\""
 
 def cplusplus():
     # c++ prof time
-    print("C Pwus Pwus Pwofilwer 😼😼")
+    print("C Plus Plus Profiler 😼")
 
     # uh linux based file pathing for wsl exec
     timepath = f"data/intervals/c++/TimeLog-{ts}.csv"
@@ -43,7 +44,7 @@ def cplusplus():
     with open(timepath.replace("/", "\\"), "a") as logfile:
         logfile.write("func-head,start,end\n")
 
-    # our subprocess ommand
+    # our subprocess compile command
     proc = f"{power_path} -resolution {args.resolution} -file {args.outfile} -cmd {comm_types[args.cmdtype]}"
     print("Running command:\n",proc)
 
@@ -102,8 +103,7 @@ def pyprof():
     print(completed.stdout)
     print("\nExecution Complete\n")
 
-    time.sleep(3)
-
+    time.sleep(1)
     from analyze import analyze
     
     analyze(pdata=f"{args.outfile}", tdata=timepath)
@@ -119,7 +119,6 @@ parser.add_argument('-ctype', dest="cmdtype", default='python3')
 parser.add_argument('-r', '--resolution', dest='resolution', default=10)
 parser.add_argument('-v', '--verbose', dest='verbose', default=False)
 parser.add_argument('-t', dest="infile")
-
 args = parser.parse_args()
 
 comm_types={"c++":f"wsl {args.infile}", "python3":f"python {args.infile}"}

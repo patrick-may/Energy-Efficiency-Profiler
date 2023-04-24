@@ -43,46 +43,48 @@ def bubbleSort():
             return
 
 @measure_time
-def mergeSort(arr):
-    if len(arr) > 1:
- 
-         # Finding the mid of the array
-        mid = len(arr)//2
- 
-        # Dividing the array elements
-        L = arr[:mid]
- 
-        # into 2 halves
-        R = arr[mid:]
- 
-        # Sorting the first half
-        mergeSort(L)
- 
-        # Sorting the second half
-        mergeSort(R)
- 
-        i = j = k = 0
- 
-        # Copy data to temp arrays L[] and R[]
-        while i < len(L) and j < len(R):
-            if L[i] <= R[j]:
+def mergeSortOut(arr):
+    def mergeSort(arr):
+        if len(arr) > 1:
+    
+            # Finding the mid of the array
+            mid = len(arr)//2
+    
+            # Dividing the array elements
+            L = arr[:mid]
+    
+            # into 2 halves
+            R = arr[mid:]
+    
+            # Sorting the first half
+            mergeSort(L)
+    
+            # Sorting the second half
+            mergeSort(R)
+    
+            i = j = k = 0
+    
+            # Copy data to temp arrays L[] and R[]
+            while i < len(L) and j < len(R):
+                if L[i] <= R[j]:
+                    arr[k] = L[i]
+                    i += 1
+                else:
+                    arr[k] = R[j]
+                    j += 1
+                k += 1
+    
+            # Checking if any element was left
+            while i < len(L):
                 arr[k] = L[i]
                 i += 1
-            else:
+                k += 1
+    
+            while j < len(R):
                 arr[k] = R[j]
                 j += 1
-            k += 1
- 
-        # Checking if any element was left
-        while i < len(L):
-            arr[k] = L[i]
-            i += 1
-            k += 1
- 
-        while j < len(R):
-            arr[k] = R[j]
-            j += 1
-            k += 1
+                k += 1
+    mergeSort(arr)
 
 #auxilliary quicksort fn
 def partition(array, low, high):
@@ -112,24 +114,26 @@ def partition(array, low, high):
     return i + 1
  
 @measure_time
-def quickSort(array, low, high):
-    if low < high:
- 
-        # Find pivot element such that
-        # element smaller than pivot are on the left
-        # element greater than pivot are on the right
-        pi = partition(array, low, high)
- 
-        # Recursive call on the left of pivot
-        quickSort(array, low, pi - 1)
- 
-        # Recursive call on the right of pivot
-        quickSort(array, pi + 1, high)
- 
+def quickSortOut(array, low, high):
+
+    def quickSort(array, low, high):
+        if low < high:
+    
+            # Find pivot element such that
+            # element smaller than pivot are on the left
+            # element greater than pivot are on the right
+            pi = partition(array, low, high)
+    
+            # Recursive call on the left of pivot
+            quickSort(array, low, pi - 1)
+    
+            # Recursive call on the right of pivot
+            quickSort(array, pi + 1, high)
+    quickSort(array, low, high)
 
 arr = gen_scramble(10_000)
 bubbleSort()
 arr = gen_scramble(10_000)
-mergeSort(arr)
+mergeSortOut(arr)
 arr = gen_scramble(10_000)
-quickSort(arr, 0, 9999)
+quickSortOut(arr, 0, 9999)
