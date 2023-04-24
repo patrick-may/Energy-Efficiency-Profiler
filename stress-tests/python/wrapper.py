@@ -8,7 +8,7 @@ def measure_time(f):
     
     # subfunciton
     def timed(*args, **kw):
-        save_to = "data\intervals\python\TimeLog-2023-04-24-13-24-09.541371.csv"
+        save_to = "data\intervals\python\TimeLog-2023-04-24-14-11-53.996669.csv"
         
         # timestamp start, call func, timestamp end
         ts = time.time()
