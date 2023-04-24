@@ -1,5 +1,5 @@
 # Patrick May, Energy Profiling Stress Tests Algorithm Analysis (c 2023)
-# Find the nth fibonacci number without any optimizations
+# Find the nth fibonacci number without any optimizationst
 
 from wrapper import measure_time
 
@@ -10,4 +10,6 @@ def fib(n):
 
     return fib(n - 1) + fib(n - 2)
 
-print(fib(20))
+
+n = fib(20)
+print(n)

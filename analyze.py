@@ -90,7 +90,7 @@ def analyze(pdata, tdata):
 
     # label graph
     plt.title("CowProf High Level Report")
-    plt.xlabel("Time (ms)"); plt.ylabel("Power (W)")
+    plt.xlabel("Time (s)"); plt.ylabel("Power (W)")
     plt.legend(
         by_label.values(), 
         by_label.keys(), 
