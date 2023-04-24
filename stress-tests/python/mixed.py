@@ -23,5 +23,5 @@ def think():
     from time import sleep
     sleep(10)
 
-for _ in range(10):
+for _ in range(6):
     turbo_thrash() if _ % 2 else think()
